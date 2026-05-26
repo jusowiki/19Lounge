@@ -2,15 +2,16 @@ const SUPABASE_URL = "https://cwxzorwsxyqihfozlgpy.supabase.co";
 
 const SUPABASE_ANON_KEY =
 
-"sb_publishable_mMHqsztDw4BxsSYXR9xFIg_paE4N4P1";
+  "sb_publishable_mMHqsztDw4BxsSYXR9xFIg_paE4N4P1";
 
-const supabaseClient = supabase.createClient(
+const db = supabase.createClient(
 
   SUPABASE_URL,
 
   SUPABASE_ANON_KEY
 
 );
+
 const menuBtn = document.getElementById("menuBtn");
 
 const sideMenu = document.getElementById("sideMenu");
@@ -33,6 +34,8 @@ const titleInput = document.getElementById("titleInput");
 
 const contentInput = document.getElementById("contentInput");
 
+let posts = [];
+
 menuBtn.addEventListener("click", () => {
 
   sideMenu.classList.add("open");
@@ -51,127 +54,105 @@ function closeMenu() {
 
 }
 
-const posts = [
+function escapeHtml(text = "") {
 
-  {
+  return String(text)
 
-    title: "처음 온 사람들을 위한 이용규칙 정리",
+    .replaceAll("&", "&amp;")
 
-    content: "불법촬영물, 미성년자 관련 내용, 개인정보 유출은 절대 금지입니다.",
+    .replaceAll("<", "&lt;")
 
-    category: "공지",
+    .replaceAll(">", "&gt;")
 
-    nickname: "관리자",
+    .replaceAll('"', "&quot;")
 
-    views: 1284,
+    .replaceAll("'", "&#039;");
 
-    comments: 42,
+}
 
-    likes: 88,
+function formatDate(value) {
 
-    time: "방금 전"
+  if (!value) return "방금 전";
 
-  },
+  const date = new Date(value);
 
-  {
+  return date.toLocaleString("ko-KR", {
 
-    title: "요즘 모바일 커뮤니티는 다크모드가 편하긴 하다",
+    month: "2-digit",
 
-    content: "밤에 보기 편하고 글목록 집중도도 높은 편입니다.",
+    day: "2-digit",
 
-    category: "자유",
+    hour: "2-digit",
 
-    nickname: "익명",
+    minute: "2-digit"
 
-    views: 532,
+  });
 
-    comments: 18,
+}
 
-    likes: 21,
+async function loadPosts() {
 
-    time: "5분 전"
+  const { data, error } = await db
 
-  },
+    .from("posts")
 
-  {
+    .select("*")
 
-    title: "익명게시판은 글쓰기 버튼이 바로 보여야 좋음",
+    .order("created_at", { ascending: false });
 
-    content: "복잡한 절차 없이 빠르게 쓰는 흐름이 중요합니다.",
+  if (error) {
 
-    category: "익명",
+    console.error(error);
 
-    nickname: "익명",
+    alert("게시글을 불러오지 못했습니다.");
 
-    views: 421,
-
-    comments: 9,
-
-    likes: 13,
-
-    time: "11분 전"
-
-  },
-
-  {
-
-    title: "후기 게시판은 인증 없이 운영하면 관리가 힘들 듯",
-
-    content: "신고 버튼, 관리자 삭제 기능은 처음부터 필요해 보입니다.",
-
-    category: "후기",
-
-    nickname: "익명",
-
-    views: 804,
-
-    comments: 31,
-
-    likes: 39,
-
-    time: "23분 전"
-
-  },
-
-  {
-
-    title: "광고는 처음부터 너무 많이 넣으면 이탈 심함",
-
-    content: "초반엔 커뮤니티 느낌을 먼저 만들고 광고는 나중이 나을 듯.",
-
-    category: "자유",
-
-    nickname: "익명",
-
-    views: 257,
-
-    comments: 7,
-
-    likes: 10,
-
-    time: "34분 전"
+    return;
 
   }
 
-];
+  posts = data || [];
+
+  renderHotPosts();
+
+  renderPosts();
+
+}
 
 function renderHotPosts() {
 
-  const sorted = [...posts].sort((a, b) => b.likes - a.likes).slice(0, 4);
+  const sorted = [...posts]
+
+    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+
+    .slice(0, 4);
+
+  if (!sorted.length) {
+
+    hotPosts.innerHTML = "";
+
+    return;
+
+  }
 
   hotPosts.innerHTML = sorted.map((post, index) => `
 
     <article class="hot-card">
 
-      <h3><span class="rank">${index + 1}</span>${post.title}</h3>
+      <h3>
+
+        <span class="rank">${index + 1}</span>
+
+        ${escapeHtml(post.title)}
+
+      </h3>
 
       <div class="meta">
 
-        <span>${post.category}</span>
+        <span>${escapeHtml(post.category || "익명")}</span>
 
-        <span>조회 ${post.views}</span>
+        <span>조회 ${post.views || 0}</span>
 
-        <span>댓글 ${post.comments}</span>
+        <span>추천 ${post.likes || 0}</span>
 
       </div>
 
@@ -183,6 +164,24 @@ function renderHotPosts() {
 
 function renderPosts() {
 
+  if (!posts.length) {
+
+    postList.innerHTML = `
+
+      <article class="post-item">
+
+        <div class="post-title">아직 게시글이 없습니다.</div>
+
+        <div class="post-preview">첫 글을 작성해보세요.</div>
+
+      </article>
+
+    `;
+
+    return;
+
+  }
+
   postList.innerHTML = posts.map(post => `
 
     <article class="post-item">
@@ -191,27 +190,25 @@ function renderPosts() {
 
         <div>
 
-          <div class="post-title">${post.title}</div>
+          <div class="post-title">${escapeHtml(post.title)}</div>
 
-          <div class="post-preview">${post.content}</div>
+          <div class="post-preview">${escapeHtml(post.content)}</div>
 
         </div>
 
-        <span class="badge">${post.category}</span>
+        <span class="badge">${escapeHtml(post.category || "익명")}</span>
 
       </div>
 
       <div class="meta">
 
-        <span>${post.nickname}</span>
+        <span>${escapeHtml(post.nickname || "익명")}</span>
 
-        <span>${post.time}</span>
+        <span>${formatDate(post.created_at)}</span>
 
-        <span>조회 ${post.views}</span>
+        <span>조회 ${post.views || 0}</span>
 
-        <span>댓글 ${post.comments}</span>
-
-        <span>추천 ${post.likes}</span>
+        <span>추천 ${post.likes || 0}</span>
 
       </div>
 
@@ -233,7 +230,7 @@ cancelBtn.addEventListener("click", () => {
 
 });
 
-submitBtn.addEventListener("click", () => {
+submitBtn.addEventListener("click", async () => {
 
   const title = titleInput.value.trim();
 
@@ -247,25 +244,39 @@ submitBtn.addEventListener("click", () => {
 
   }
 
-  posts.unshift({
+  const { error } = await db
 
-    title,
+    .from("posts")
 
-    content,
+    .insert([
 
-    category: "익명",
+      {
 
-    nickname: "익명",
+        title,
 
-    views: 0,
+        content,
 
-    comments: 0,
+        category: "익명",
 
-    likes: 0,
+        nickname: "익명",
 
-    time: "방금 전"
+        views: 0,
 
-  });
+        likes: 0
+
+      }
+
+    ]);
+
+  if (error) {
+
+    console.error(error);
+
+    alert("글 등록에 실패했습니다.");
+
+    return;
+
+  }
 
   titleInput.value = "";
 
@@ -273,27 +284,8 @@ submitBtn.addEventListener("click", () => {
 
   writeModal.classList.remove("show");
 
-  renderHotPosts();
-
-  renderPosts();
+  await loadPosts();
 
 });
 
-renderHotPosts();
-
-renderPosts();
-async function testConnection() {
-
-  const { data, error } = await supabaseClient
-
-    .from("posts")
-
-    .select("*");
-
-  console.log(data);
-
-  console.log(error);
-
-}
-
-testConnection();
+loadPosts();
