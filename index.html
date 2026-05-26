@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>NOX</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+  <button class="icon-btn" id="menuBtn">☰</button>
+
+  <div class="logo" id="homeLogo">
+
+    <h1>NOX</h1>
+
+    <p>남자들의 현실 익명 커뮤니티</p>
+
+  </div>
+
+  <button class="icon-btn">🔍</button>
+
+</header>
+
+<nav class="category-tabs">
+
+  <button class="active" data-category="전체">전체</button>
+
+  <button data-category="라운지">라운지</button>
+
+  <button data-category="국제연애">국제연애</button>
+
+  <button data-category="국제결혼">국제결혼</button>
+
+  <button data-category="연애">연애</button>
+
+  <button data-category="현실고민">현실고민</button>
+
+  <button data-category="후기/썰">후기/썰</button>
+
+  <button data-category="유머">유머</button>
+
+  <button data-category="새벽감성">새벽감성</button>
+
+</nav>
+
+<aside class="side-menu" id="sideMenu">
+
+  <h2>NOX</h2>
+
+  <p class="side-desc">
+
+    국제연애 · 국제결혼 · 현실연애 정보를 공유하는 익명 커뮤니티
+
+  </p>
+
+  <ul>
+
+    <li id="sideHome">🏠 홈</li>
+
+    <li>🔥 인기글</li>
+
+    <li>🌏 국제연애</li>
+
+    <li>💍 국제결혼</li>
+
+    <li>🧠 현실고민</li>
+
+    <li>📢 공지사항</li>
+
+    <li>🚨 신고/문의</li>
+
+  </ul>
+
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<main class="container">
+
+  <!-- 홈 -->
+
+  <section id="homeView">
+
+    <section class="notice-box">
+
+      <strong>공지</strong>
+
+      <span>
+
+        비하, 혐오, 불법촬영물, 미성년자 관련 게시물, 개인정보 유출은 즉시 삭제됩니다.
+
+      </span>
+
+    </section>
+
+    <section class="hot-section">
+
+      <div class="section-title">
+
+        <h2>🔥 실시간 인기글</h2>
+
+      </div>
+
+      <div id="hotPosts" class="hot-list"></div>
+
+    </section>
+
+    <section class="post-section">
+
+      <div class="section-title">
+
+        <h2 id="currentCategoryTitle">최신글</h2>
+
+        <select id="sortSelect">
+
+          <option value="latest">최신순</option>
+
+          <option value="popular">인기순</option>
+
+        </select>
+
+      </div>
+
+      <div id="postList" class="post-list"></div>
+
+    </section>
+
+  </section>
+
+  <!-- 글쓰기 -->
+
+  <section id="writeView" class="hidden">
+
+    <button class="back-btn" id="writeBackBtn">
+
+      ← 목록으로
+
+    </button>
+
+    <div class="write-page">
+
+      <h2>글쓰기</h2>
+
+      <label>카테고리</label>
+
+      <select id="categoryInput">
+
+        <option value="라운지">라운지</option>
+
+        <option value="국제연애">국제연애</option>
+
+        <option value="국제결혼">국제결혼</option>
+
+        <option value="연애">연애</option>
+
+        <option value="현실고민">현실고민</option>
+
+        <option value="후기/썰">후기/썰</option>
+
+        <option value="유머">유머</option>
+
+        <option value="새벽감성">새벽감성</option>
+
+      </select>
+
+      <label>닉네임</label>
+
+      <input
+
+        id="nicknameInput"
+
+        type="text"
+
+        placeholder="닉네임"
+
+      />
+
+      <label>글 비밀번호 (숫자 5자리)</label>
+
+      <input
+
+        id="passwordInput"
+
+        type="password"
+
+        maxlength="5"
+
+        inputmode="numeric"
+
+        placeholder="수정/삭제용 비밀번호"
+
+      />
+
+      <label>제목</label>
+
+      <input
+
+        id="titleInput"
+
+        type="text"
+
+        placeholder="제목을 입력하세요"
+
+      />
+
+      <label>내용</label>
+
+      <textarea
+
+        id="contentInput"
+
+        placeholder="내용을 입력하세요"
+
+      ></textarea>
+
+      <button class="submit-full-btn" id="submitBtn">
+
+        등록하기
+
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- 상세 -->
+
+  <section id="detailView" class="hidden">
+
+    <button class="back-btn" id="detailBackBtn">
+
+      ← 목록으로
+
+    </button>
+
+    <article class="detail-card">
+
+      <div class="detail-category" id="detailCategory"></div>
+
+      <h2 id="detailTitle"></h2>
+
+      <div class="meta" id="detailMeta"></div>
+
+      <p id="detailContent"></p>
+
+      <div class="detail-actions">
+
+        <button id="likeBtn">
+
+          👍 추천 <span id="likeCount">0</span>
+
+        </button>
+
+        <button id="deletePostBtn">
+
+          삭제
+
+        </button>
+
+        <button id="adminDeleteBtn">
+
+          관리자 삭제
+
+        </button>
+
+      </div>
+
+    </article>
+
+    <section class="comment-section">
+
+      <div class="section-title">
+
+        <h2>
+
+          댓글 <span id="commentCount">0</span>
+
+        </h2>
+
+      </div>
+
+      <div class="comment-write">
+
+        <input
+
+          id="commentNicknameInput"
+
+          type="text"
+
+          placeholder="닉네임"
+
+        />
+
+        <textarea
+
+          id="commentInput"
+
+          placeholder="댓글을 입력하세요"
+
+        ></textarea>
+
+        <button id="commentSubmitBtn">
+
+          댓글 등록
+
+        </button>
+
+      </div>
+
+      <div id="commentList" class="comment-list"></div>
+
+    </section>
+
+  </section>
+
+</main>
+
+<button class="write-btn" id="writeBtn">
+
+  ✍ 글쓰기
+
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="script.js?v=999"></script>
+
+</body>
+
+</html>
