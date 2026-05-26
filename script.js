@@ -34,7 +34,47 @@ const titleInput = document.getElementById("titleInput");
 
 const contentInput = document.getElementById("contentInput");
 
+const categoryInput = document.getElementById("categoryInput");
+
+const nicknameInput = document.getElementById("nicknameInput");
+
+const sortSelect = document.getElementById("sortSelect");
+
+const currentCategoryTitle = document.getElementById("currentCategoryTitle");
+
+const categoryButtons = document.querySelectorAll(".category-tabs button");
+
 let posts = [];
+
+let selectedCategory = "전체";
+
+const randomNames = [
+
+  "새벽남", "고독한늑대", "현실남", "밤의손님", "노멀맨",
+
+  "국결준비생", "라운지남", "혼술러", "무명남", "NOX맨"
+
+];
+
+function getSavedNickname() {
+
+  let name = localStorage.getItem("noxNickname");
+
+  if (!name) {
+
+    const random = randomNames[Math.floor(Math.random() * randomNames.length)];
+
+    const number = Math.floor(Math.random() * 9000) + 1000;
+
+    name = `${random}${number}`;
+
+    localStorage.setItem("noxNickname", name);
+
+  }
+
+  return name;
+
+}
 
 menuBtn.addEventListener("click", () => {
 
@@ -92,13 +132,21 @@ function formatDate(value) {
 
 async function loadPosts() {
 
-  const { data, error } = await db
+  let query = db
 
     .from("posts")
 
     .select("*")
 
     .order("created_at", { ascending: false });
+
+  if (selectedCategory !== "전체") {
+
+    query = query.eq("category", selectedCategory);
+
+  }
+
+  const { data, error } = await query;
 
   if (error) {
 
@@ -148,7 +196,9 @@ function renderHotPosts() {
 
       <div class="meta">
 
-        <span>${escapeHtml(post.category || "익명")}</span>
+        <span>${escapeHtml(post.category || "라운지")}</span>
+
+        <span>${escapeHtml(post.nickname || "익명")}</span>
 
         <span>조회 ${post.views || 0}</span>
 
@@ -196,7 +246,7 @@ function renderPosts() {
 
         </div>
 
-        <span class="badge">${escapeHtml(post.category || "익명")}</span>
+        <span class="badge">${escapeHtml(post.category || "라운지")}</span>
 
       </div>
 
@@ -218,7 +268,45 @@ function renderPosts() {
 
 }
 
+categoryButtons.forEach(button => {
+
+  button.addEventListener("click", async () => {
+
+    categoryButtons.forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    selectedCategory = button.dataset.category;
+
+    currentCategoryTitle.textContent =
+
+      selectedCategory === "전체" ? "최신글" : `${selectedCategory} 게시판`;
+
+    await loadPosts();
+
+  });
+
+});
+
+sortSelect.addEventListener("change", () => {
+
+  if (sortSelect.value === "popular") {
+
+    posts.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+
+  } else {
+
+    posts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  }
+
+  renderPosts();
+
+});
+
 writeBtn.addEventListener("click", () => {
+
+  nicknameInput.value = getSavedNickname();
 
   writeModal.classList.add("show");
 
@@ -236,6 +324,10 @@ submitBtn.addEventListener("click", async () => {
 
   const content = contentInput.value.trim();
 
+  const category = categoryInput.value;
+
+  const nickname = nicknameInput.value.trim() || getSavedNickname();
+
   if (!title || !content) {
 
     alert("제목과 내용을 입력하세요.");
@@ -243,6 +335,8 @@ submitBtn.addEventListener("click", async () => {
     return;
 
   }
+
+  localStorage.setItem("noxNickname", nickname);
 
   const { error } = await db
 
@@ -256,9 +350,9 @@ submitBtn.addEventListener("click", async () => {
 
         content,
 
-        category: "익명",
+        category,
 
-        nickname: "익명",
+        nickname,
 
         views: 0,
 
@@ -283,6 +377,16 @@ submitBtn.addEventListener("click", async () => {
   contentInput.value = "";
 
   writeModal.classList.remove("show");
+
+  selectedCategory = "전체";
+
+  categoryButtons.forEach(btn => {
+
+    btn.classList.toggle("active", btn.dataset.category === "전체");
+
+  });
+
+  currentCategoryTitle.textContent = "최신글";
 
   await loadPosts();
 
