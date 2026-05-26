@@ -1,3 +1,16 @@
+const SUPABASE_URL = "https://cwxzorwsxyqihfozlgpy.supabase.co";
+
+const SUPABASE_ANON_KEY =
+
+"sb_publishable_mMHqsztDw4BxsSYXR9xFIg_paE4N4P1";
+
+const supabaseClient = supabase.createClient(
+
+  SUPABASE_URL,
+
+  SUPABASE_ANON_KEY
+
+);
 const menuBtn = document.getElementById("menuBtn");
 
 const sideMenu = document.getElementById("sideMenu");
