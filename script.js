@@ -282,3 +282,18 @@ submitBtn.addEventListener("click", () => {
 renderHotPosts();
 
 renderPosts();
+async function testConnection() {
+
+  const { data, error } = await supabaseClient
+
+    .from("posts")
+
+    .select("*");
+
+  console.log(data);
+
+  console.log(error);
+
+}
+
+testConnection();
