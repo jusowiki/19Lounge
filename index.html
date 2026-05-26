@@ -54,6 +54,36 @@
 
 </nav>
 
+<aside class="side-menu" id="sideMenu">
+
+  <h2>NOX</h2>
+
+  <p class="side-desc">
+
+    국제연애 · 국제결혼 · 현실연애 정보를 공유하는 익명 커뮤니티
+
+  </p>
+
+  <ul>
+
+    <li id="sideHome">🏠 홈</li>
+
+    <li>🔥 인기글</li>
+
+    <li>🌏 국제연애</li>
+
+    <li>💍 국제결혼</li>
+
+    <li>🧠 현실고민</li>
+
+    <li>📢 공지사항</li>
+
+    <li>🚨 신고/문의</li>
+
+  </ul>
+
+</aside>
+
 <div class="overlay" id="overlay"></div>
 
 <main class="container">
@@ -66,7 +96,23 @@
 
       <strong>공지</strong>
 
-      <span>비하, 혐오, 불법촬영물, 미성년자 관련 게시물은 삭제됩니다.</span>
+      <span>
+
+        비하, 혐오, 불법촬영물, 미성년자 관련 게시물, 개인정보 유출은 즉시 삭제됩니다.
+
+      </span>
+
+    </section>
+
+    <section class="hot-section">
+
+      <div class="section-title">
+
+        <h2>🔥 실시간 인기글</h2>
+
+      </div>
+
+      <div id="hotPosts" class="hot-list"></div>
 
     </section>
 
@@ -130,9 +176,17 @@
 
       <label>닉네임</label>
 
-      <input id="nicknameInput" type="text" />
+      <input
 
-      <label>비밀번호</label>
+        id="nicknameInput"
+
+        type="text"
+
+        placeholder="닉네임"
+
+      />
+
+      <label>글 비밀번호 (숫자 5자리)</label>
 
       <input
 
@@ -140,23 +194,37 @@
 
         type="password"
 
-        inputmode="numeric"
-
         maxlength="5"
 
-        placeholder="숫자 5자리"
+        inputmode="numeric"
+
+        placeholder="수정/삭제용 비밀번호"
 
       />
 
       <label>제목</label>
 
-      <input id="titleInput" type="text" />
+      <input
+
+        id="titleInput"
+
+        type="text"
+
+        placeholder="제목을 입력하세요"
+
+      />
 
       <label>내용</label>
 
-      <textarea id="contentInput"></textarea>
+      <textarea
 
-      <button class="submit-btn" id="submitBtn">
+        id="contentInput"
+
+        placeholder="내용을 입력하세요"
+
+      ></textarea>
+
+      <button class="submit-full-btn" id="submitBtn">
 
         등록하기
 
@@ -184,7 +252,7 @@
 
       <div class="meta" id="detailMeta"></div>
 
-      <div class="detail-content" id="detailContent"></div>
+      <p id="detailContent"></p>
 
       <div class="detail-actions">
 
@@ -200,21 +268,47 @@
 
         </button>
 
+        <button id="adminDeleteBtn">
+
+          관리자 삭제
+
+        </button>
+
       </div>
 
     </article>
 
-    <!-- 댓글 -->
-
     <section class="comment-section">
 
-      <h3>댓글</h3>
+      <div class="section-title">
+
+        <h2>
+
+          댓글 <span id="commentCount">0</span>
+
+        </h2>
+
+      </div>
 
       <div class="comment-write">
 
-        <input id="commentNicknameInput" type="text" />
+        <input
 
-        <textarea id="commentInput"></textarea>
+          id="commentNicknameInput"
+
+          type="text"
+
+          placeholder="닉네임"
+
+        />
+
+        <textarea
+
+          id="commentInput"
+
+          placeholder="댓글을 입력하세요"
+
+        ></textarea>
 
         <button id="commentSubmitBtn">
 
@@ -240,7 +334,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="script.js"></script>
+<script src="script.js?v=999"></script>
 
 </body>
 
