@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>19라운지</title>
+  <title>NOX</title>
 
   <link rel="stylesheet" href="style.css" />
 
@@ -22,9 +22,9 @@
 
   <div class="logo" onclick="location.href='index.html'">
 
-    <h1>19<span>라운지</span></h1>
+    <h1>NOX</h1>
 
-    <p>성인 전용 익명 커뮤니티</p>
+    <p>남자들의 현실 익명 커뮤니티</p>
 
   </div>
 
@@ -34,25 +34,31 @@
 
 <nav class="category-tabs">
 
-  <button class="active">전체</button>
+  <button class="active" data-category="전체">전체</button>
 
-  <button>자유</button>
+  <button data-category="라운지">라운지</button>
 
-  <button>익명</button>
+  <button data-category="국제연애">국제연애</button>
 
-  <button>연애</button>
+  <button data-category="국제결혼">국제결혼</button>
 
-  <button>후기</button>
+  <button data-category="연애">연애</button>
 
-  <button>유머</button>
+  <button data-category="현실고민">현실고민</button>
+
+  <button data-category="후기/썰">후기/썰</button>
+
+  <button data-category="유머">유머</button>
+
+  <button data-category="새벽감성">새벽감성</button>
 
 </nav>
 
 <aside class="side-menu" id="sideMenu">
 
-  <h2>19라운지</h2>
+  <h2>NOX</h2>
 
-  <p class="side-desc">만 19세 이상 성인 전용 커뮤니티</p>
+  <p class="side-desc">국제연애·국제결혼·현실연애 정보를 공유하는 익명 커뮤니티</p>
 
   <ul>
 
@@ -60,13 +66,15 @@
 
     <li>🔥 인기글</li>
 
-    <li>📝 최신글</li>
+    <li>🌏 국제연애</li>
+
+    <li>💍 국제결혼</li>
+
+    <li>🧠 현실고민</li>
 
     <li>📢 공지사항</li>
 
     <li>🚨 신고/문의</li>
-
-    <li>⚙️ 이용규칙</li>
 
   </ul>
 
@@ -80,7 +88,7 @@
 
     <strong>공지</strong>
 
-    <span>불법촬영물, 미성년자 관련 게시물, 개인정보 유출은 즉시 삭제 및 차단됩니다.</span>
+    <span>비하, 혐오, 불법촬영물, 미성년자 관련 게시물, 개인정보 유출은 즉시 삭제됩니다.</span>
 
   </section>
 
@@ -89,8 +97,6 @@
     <div class="section-title">
 
       <h2>🔥 실시간 인기글</h2>
-
-      <a href="#">더보기</a>
 
     </div>
 
@@ -102,15 +108,13 @@
 
     <div class="section-title">
 
-      <h2>최신글</h2>
+      <h2 id="currentCategoryTitle">최신글</h2>
 
       <select id="sortSelect">
 
-        <option>최신순</option>
+        <option value="latest">최신순</option>
 
-        <option>인기순</option>
-
-        <option>댓글순</option>
+        <option value="popular">인기순</option>
 
       </select>
 
@@ -130,6 +134,28 @@
 
     <h2>글쓰기</h2>
 
+    <select id="categoryInput">
+
+      <option value="라운지">라운지</option>
+
+      <option value="국제연애">국제연애</option>
+
+      <option value="국제결혼">국제결혼</option>
+
+      <option value="연애">연애</option>
+
+      <option value="현실고민">현실고민</option>
+
+      <option value="후기/썰">후기/썰</option>
+
+      <option value="유머">유머</option>
+
+      <option value="새벽감성">새벽감성</option>
+
+    </select>
+
+    <input id="nicknameInput" type="text" placeholder="닉네임" />
+
     <input id="titleInput" type="text" placeholder="제목을 입력하세요" />
 
     <textarea id="contentInput" placeholder="내용을 입력하세요"></textarea>
@@ -146,11 +172,7 @@
 
 </div>
 
-<!-- supabase 먼저 -->
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- 그 다음 script.js -->
 
 <script src="script.js"></script>
 
