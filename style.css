@@ -16,6 +16,12 @@ body {
 
 }
 
+.hidden {
+
+  display: none !important;
+
+}
+
 .top-header {
 
   height: 82px;
@@ -67,8 +73,6 @@ body {
   font-size: 34px;
 
   font-weight: 900;
-
-  letter-spacing: -1px;
 
   color: #fff;
 
@@ -200,7 +204,7 @@ body {
 
 .section-title select,
 
-.modal-card select {
+.write-page select {
 
   background: #222;
 
@@ -212,13 +216,13 @@ body {
 
   padding: 8px;
 
-  margin-bottom: 10px;
-
 }
 
 .hot-list,
 
-.post-list {
+.post-list,
+
+.comment-list {
 
   display: grid;
 
@@ -228,7 +232,9 @@ body {
 
 .hot-card,
 
-.post-item {
+.post-item,
+
+.comment-item {
 
   background: #181818;
 
@@ -237,6 +243,22 @@ body {
   border-radius: 12px;
 
   padding: 13px;
+
+}
+
+.hot-card,
+
+.post-item {
+
+  cursor: pointer;
+
+}
+
+.hot-card:active,
+
+.post-item:active {
+
+  transform: scale(0.99);
 
 }
 
@@ -442,59 +464,69 @@ body {
 
   box-shadow: 0 10px 28px rgba(255, 59, 59, 0.32);
 
-}
-
-.write-modal {
-
-  display: none;
-
-  position: fixed;
-
-  inset: 0;
-
-  background: rgba(0,0,0,0.75);
-
-  z-index: 2000;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 18px;
+  z-index: 800;
 
 }
 
-.write-modal.show {
+.back-btn {
 
-  display: flex;
-
-}
-
-.modal-card {
-
-  width: 100%;
-
-  max-width: 520px;
-
-  background: #1c1c1c;
+  background: #222;
 
   border: 1px solid #333;
 
+  color: #ddd;
+
+  border-radius: 10px;
+
+  padding: 10px 13px;
+
+  margin-bottom: 12px;
+
+  font-weight: 800;
+
+}
+
+.write-page,
+
+.detail-card,
+
+.comment-write {
+
+  background: #181818;
+
+  border: 1px solid #2a2a2a;
+
   border-radius: 16px;
 
-  padding: 18px;
+  padding: 16px;
 
 }
 
-.modal-card h2 {
+.write-page h2 {
 
-  margin: 0 0 14px;
+  margin-top: 0;
 
 }
 
-.modal-card input,
+.write-page label {
 
-.modal-card textarea {
+  display: block;
+
+  color: #aaa;
+
+  font-size: 13px;
+
+  margin: 12px 0 6px;
+
+}
+
+.write-page input,
+
+.write-page textarea,
+
+.comment-write input,
+
+.comment-write textarea {
 
   width: 100%;
 
@@ -508,54 +540,130 @@ body {
 
   padding: 12px;
 
-  margin-bottom: 10px;
-
   font-size: 15px;
 
 }
 
-.modal-card textarea {
+.write-page textarea {
 
-  height: 140px;
+  height: 240px;
 
   resize: none;
 
 }
 
-.modal-actions {
+.submit-full-btn,
 
-  display: grid;
+.comment-write button {
 
-  grid-template-columns: 1fr 1fr;
+  width: 100%;
 
-  gap: 10px;
+  height: 48px;
 
-}
+  margin-top: 14px;
 
-.modal-actions button {
-
-  height: 44px;
-
-  border-radius: 10px;
+  border-radius: 12px;
 
   border: none;
+
+  background: #ff3b3b;
+
+  color: #fff;
+
+  font-size: 16px;
 
   font-weight: 900;
 
 }
 
-#cancelBtn {
+.detail-category {
 
-  background: #333;
+  color: #ff6b6b;
 
-  color: #eee;
+  font-weight: 900;
+
+  font-size: 13px;
+
+  margin-bottom: 8px;
 
 }
 
-#submitBtn {
+.detail-card h2 {
 
-  background: #ff3b3b;
+  margin: 0 0 10px;
 
-  color: white;
+  font-size: 22px;
+
+  line-height: 1.35;
+
+}
+
+.detail-card p {
+
+  color: #ddd;
+
+  line-height: 1.75;
+
+  font-size: 15px;
+
+  white-space: pre-wrap;
+
+}
+
+.detail-actions {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 1fr;
+
+  gap: 8px;
+
+  margin-top: 20px;
+
+}
+
+.detail-actions button {
+
+  height: 42px;
+
+  border-radius: 10px;
+
+  border: 1px solid #333;
+
+  background: #222;
+
+  color: #eee;
+
+  font-weight: 800;
+
+}
+
+.comment-section {
+
+  margin-top: 18px;
+
+}
+
+.comment-write textarea {
+
+  height: 90px;
+
+  margin-top: 8px;
+
+  resize: none;
+
+}
+
+.comment-content {
+
+  color: #ddd;
+
+  font-size: 14px;
+
+  line-height: 1.55;
+
+  margin-top: 7px;
+
+  white-space: pre-wrap;
 
 }
