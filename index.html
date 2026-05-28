@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>낭만가다</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<header class="top-header">
+
+  <div class="logo" id="homeLogo">
+
+    <h1>낭만가다</h1>
+
+    <p>Life Crew</p>
+
+  </div>
+
+</header>
+
+<section class="search-bar">
+
+  <input
+
+    id="searchInput"
+
+    type="text"
+
+    placeholder="평택, 조공, 숙식, 단가 검색"
+
+  />
+
+  <button id="searchBtn">검색</button>
+
+</section>
+
+<nav class="category-tabs" id="categoryTabs">
+
+  <button class="active" data-category="전체">전체</button>
+
+  <button data-category="단가표">단가표</button>
+
+  <button data-category="오늘의현장">오늘의현장</button>
+
+  <button data-category="반도체현장">반도체현장</button>
+
+  <button data-category="공수자랑">공수자랑</button>
+
+  <button data-category="공구추천">공구추천</button>
+
+  <button data-category="숙소생활">숙소생활</button>
+
+  <button data-category="초보질문">초보질문</button>
+
+  <button data-category="산재/안전">산재/안전</button>
+
+  <button data-category="주의현장">주의현장</button>
+
+  <button data-category="현장썰">현장썰</button>
+
+  <button data-category="몸관리">몸관리</button>
+
+</nav>
+
+<main class="container">
+
+  <section class="notice-box">
+
+    <strong>공지</strong>
+
+    <span>
+
+      현장 단가, 숙소, 안전, 공구 정보를 함께 모으는 공간입니다.
+
+    </span>
+
+  </section>
+
+  <section class="trend-box">
+
+    <span>🔥 평택 반도체</span>
+
+    <span>조공 단가</span>
+
+    <span>숙식 공고</span>
+
+    <span>안전화 추천</span>
+
+  </section>
+
+  <section id="rateBoard" class="rate-board hidden">
+
+    <div class="rate-header">
+
+      <h2>📌 현장직 단가표</h2>
+
+      <p>덜 받고 일하지 말자.</p>
+
+    </div>
+
+    <div class="rate-card">
+
+      <h3>배관</h3>
+
+      <table>
+
+        <tr>
+
+          <th>구분</th>
+
+          <th>숙식O</th>
+
+          <th>숙식X</th>
+
+        </tr>
+
+        <tr>
+
+          <td>조공</td>
+
+          <td>16~18</td>
+
+          <td>18~20</td>
+
+        </tr>
+
+        <tr>
+
+          <td>준기공</td>
+
+          <td>20~23</td>
+
+          <td>22~25</td>
+
+        </tr>
+
+        <tr>
+
+          <td>기공</td>
+
+          <td>25~30</td>
+
+          <td>28~35</td>
+
+        </tr>
+
+      </table>
+
+    </div>
+
+    <div class="rate-card">
+
+      <h3>전기</h3>
+
+      <table>
+
+        <tr>
+
+          <th>구분</th>
+
+          <th>숙식O</th>
+
+          <th>숙식X</th>
+
+        </tr>
+
+        <tr>
+
+          <td>조공</td>
+
+          <td>15~17</td>
+
+          <td>17~19</td>
+
+        </tr>
+
+        <tr>
+
+          <td>준기공</td>
+
+          <td>19~22</td>
+
+          <td>21~24</td>
+
+        </tr>
+
+        <tr>
+
+          <td>기공</td>
+
+          <td>24~28</td>
+
+          <td>27~32</td>
+
+        </tr>
+
+      </table>
+
+    </div>
+
+    <div class="rate-card">
+
+      <h3>덕트</h3>
+
+      <table>
+
+        <tr>
+
+          <th>구분</th>
+
+          <th>숙식O</th>
+
+          <th>숙식X</th>
+
+        </tr>
+
+        <tr>
+
+          <td>조공</td>
+
+          <td>15~17</td>
+
+          <td>17~19</td>
+
+        </tr>
+
+        <tr>
+
+          <td>준기공</td>
+
+          <td>19~22</td>
+
+          <td>21~24</td>
+
+        </tr>
+
+        <tr>
+
+          <td>기공</td>
+
+          <td>24~29</td>
+
+          <td>27~33</td>
+
+        </tr>
+
+      </table>
+
+    </div>
+
+    <div class="rate-card">
+
+      <h3>칸막이·내장</h3>
+
+      <table>
+
+        <tr>
+
+          <th>구분</th>
+
+          <th>숙식O</th>
+
+          <th>숙식X</th>
+
+        </tr>
+
+        <tr>
+
+          <td>조공</td>
+
+          <td>14~16</td>
+
+          <td>16~18</td>
+
+        </tr>
+
+        <tr>
+
+          <td>준기공</td>
+
+          <td>18~21</td>
+
+          <td>20~23</td>
+
+        </tr>
+
+        <tr>
+
+          <td>기공</td>
+
+          <td>23~27</td>
+
+          <td>25~30</td>
+
+        </tr>
+
+      </table>
+
+    </div>
+
+    <div class="rate-guide">
+
+      이 표는 현장 사람들이 함께 맞춰가는 단가표입니다.<br><br>
+
+      추가했으면 하는 공종이나 수정할 단가가 있다면 아래 수정요청에 남겨주세요.<br><br>
+
+      우리 모두 일한 만큼 제대로 인정받고, 덜 받고 일하지 말자.
+
+    </div>
+
+  </section>
+
+  <section class="hot-posts">
+
+    <h2>🔥 실시간 인기글</h2>
+
+  </section>
+
+  <section>
+
+    <h2 id="currentCategoryTitle">최신글</h2>
+
+    <div id="postList"></div>
+
+  </section>
+
+</main>
+
+<button class="write-btn" id="writeBtn">
+
+  ✍️ 글쓰기
+
+</button>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
